@@ -56,8 +56,17 @@ duplicates = [
 for dup in duplicates:
     F = nx.contracted_nodes(F, *dup, self_loops=False)
 
-for n in F:
-    del n["contraction"]
+
+# Edge attributes
+for e, data in F.edges.items():
+    if "contraction" in data:
+        del F.edges[e]["contraction"]
+
+# Nodes attributes
+for n, data in F.nodes.items():
+    if "contraction" in data:
+        del F.nodes[n]["contraction"]
+
 
 # Write graph
 core = [node for node, deg in dict(F.degree()).items() if deg >= 2]
